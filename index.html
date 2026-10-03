@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Aishwarya | A Universe For You ❤️</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        romantic: ['Great Vibes', 'cursive']
+                    },
+                    colors: {
+                        night: {
+                            DEFAULT: '#05030a',
+                            deep: '#0a0518',
+                            purple: '#150a2a',
+                            violet: '#230c3d',
+                            pink: '#ff2a7a',
+                            gold: '#ffd700',
+                            cyan: '#00f2fe'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #05030a;
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(18, 10, 36, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 120, 180, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 100, 180, 0.05);
+        }
+
+        .glass-card {
+            background: rgba(25, 15, 45, 0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 150, 200, 0.18);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 150, 200, 0.45);
+            box-shadow: 0 15px 45px rgba(255, 42, 122, 0.25);
+        }
+
+        /* Text Glow Effects */
+        .glow-title {
+            text-shadow: 0 0 15px rgba(255, 100, 180, 0.6), 0 0 30px rgba(255, 42, 122, 0.4), 0 0 50px rgba(255, 42, 122, 0.2);
+        }
+
+        .glow-gold {
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 180, 0, 0.4);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05030a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #ff2a7a, #9d4edf);
+            border-radius: 10px;
+        }
+
+        /* Screen Transitions */
+        .scene {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+            z-index: 10;
+        }
+
+        .scene.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* Letter Parchment Line-by-Line Reveal */
+        .letter-line {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .letter-line.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Floating Animation */
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: subtleFloat 5s ease-in-out infinite;
+        }
+
+        /* Pulse Glow Animation */
+        @keyframes pulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 42, 122, 0.6)); }
+            50% { filter: drop-shadow(0 0 35px rgba(255, 150, 200, 0.9)); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        /* Polaroid Photo Card */
+        .polaroid-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s ease;
+        }
+        .polaroid-card:hover {
+            transform: scale(1.05) translateY(-8px) rotate(1deg);
+            box-shadow: 0 20px 40px rgba(255, 42, 122, 0.3);
+            border-color: rgba(255, 100, 180, 0.5);
+        }
+
+        /* Custom Shiny Button */
+        .btn-cinematic {
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 42, 122, 0.8), rgba(157, 78, 223, 0.8));
+            border: 1px solid rgba(255, 200, 230, 0.4);
+            box-shadow: 0 0 20px rgba(255, 42, 122, 0.4);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .btn-cinematic::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg) translateY(-100%);
+            transition: transform 0.8s ease;
+        }
+        .btn-cinematic:hover::before {
+            transform: rotate(45deg) translateY(100%);
+        }
+        .btn-cinematic:hover {
+            box-shadow: 0 0 35px rgba(255, 42, 122, 0.8);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen w-full flex flex-col justify-between overflow-hidden">
+
+    <!-- Full-screen Hero Particle Engine Canvas -->
+    <canvas id="particleCanvas" class="fixed inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+    
+    <!-- Secondary FX Canvas for Butterflies and Fireworks -->
+    <canvas id="fxCanvas" class="fixed inset-0 w-full h-full z-1 pointer-events-none"></canvas>
+
+    <!-- Top Music Control Bar -->
+    <header class="fixed top-6 right-6 z-50">
+        <button id="musicBtn" onclick="toggleAudio()" class="glass-card px-4 py-2.5 rounded-full flex items-center gap-3 text-xs tracking-wider font-semibold text-pink-200 uppercase hover:text-white transition-all">
+            <span class="w-2 h-2 rounded-full bg-pink-500 animate-ping"></span>
+            <i id="musicIcon" class="fa-solid fa-music text-pink-400"></i>
+            <span id="musicLabel">Music On</span>
+        </button>
+    </header>
+
+    <!-- MAIN CONTAINER HOLDING ALL SCENES -->
+    <main class="relative z-10 w-full min-h-screen flex items-center justify-center p-4">
+
+        <!-- ================= SCENE 0: PASSWORD SCREEN ================= -->
+        <section id="scene-0" class="scene active">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-md w-full text-center relative overflow-hidden border border-pink-500/30 animate-float">
+                <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-tr from-pink-600/30 to-purple-600/30 border border-pink-400/40 flex items-center justify-center text-pink-300 text-3xl shadow-[0_0_25px_rgba(255,42,122,0.4)]">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+
+                <h1 class="font-cinzel text-3xl md:text-4xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-200 to-pink-300 mb-2 glow-title">
+                    For Aishwarya
+                </h1>
+                <p class="font-playfair italic text-gray-300 text-sm md:text-base mb-8">
+                    "There's a little universe waiting for you."
+                </p>
+
+                <form id="passForm" onsubmit="checkPassword(event)" class="space-y-6">
+                    <div class="relative">
+                        <input type="password" id="passInput" maxlength="4" placeholder="••••" 
+                            class="w-full bg-black/50 border border-pink-500/40 rounded-2xl px-6 py-4 text-center text-2xl tracking-[1em] text-pink-200 placeholder-gray-600 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-500/40 transition-all font-mono">
+                    </div>
+
+                    <p id="passError" class="text-pink-400 text-xs hidden animate-pulse font-medium">
+                        <i class="fa-solid fa-sparkles mr-1"></i> Incorrect passcode. Try again!
+                    </p>
+
+                    <button type="submit" class="btn-cinematic w-full py-4 rounded-2xl text-white font-semibold tracking-widest text-sm uppercase flex items-center justify-center gap-2">
+                        <span>Enter Universe</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 1: HEART PARTICLE REVEAL ================= -->
+        <section id="scene-1" class="scene">
+            <div class="text-center max-w-xl p-6 pointer-events-auto mt-auto mb-16">
+                <p id="scene1Text1" class="font-playfair italic text-xl md:text-2xl text-pink-200/90 mb-3 opacity-0 transition-opacity duration-1000">
+                    "Every little light found its way to you."
+                </p>
+                <h2 id="scene1Text2" class="font-cinzel text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-pink-400 mb-8 glow-title opacity-0 transition-opacity duration-1000">
+                    Happy Birthday, Aishwarya ❤️
+                </h2>
+                <button id="scene1Btn" onclick="transitionToTree()" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-semibold text-sm tracking-widest uppercase opacity-0 pointer-events-none transition-all duration-700 mx-auto flex items-center gap-3">
+                    <span>Continue</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 2: FLOWER TREE REVEAL ================= -->
+        <section id="scene-2" class="scene">
+            <div class="text-center max-w-xl p-6 pointer-events-auto mt-auto mb-16">
+                <p id="scene2Text1" class="font-playfair italic text-xl md:text-2xl text-pink-200/90 mb-2 opacity-0 transition-opacity duration-1000">
+                    "From a million lights..."
+                </p>
+
+                <h2 id="scene2Text2" class="font-cinzel text-3xl md:text-4xl font-bold text-yellow-200 glow-gold mb-2 opacity-0 transition-opacity duration-1000">
+                    ...a little tree for you.
+                </h2>
+
+                <p id="scene2Sub" class="font-sans text-xs tracking-widest text-purple-200/80 uppercase mb-8 opacity-0 transition-opacity duration-1000">
+                    Every flower holds a tiny memory.
+                </p>
+
+                <button id="scene2Btn" onclick="nextScene(3)" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-semibold text-sm tracking-widest uppercase opacity-0 pointer-events-none transition-all duration-700 mx-auto flex items-center gap-3">
+                    <span>Next</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 3: PENGUIN SELECTION ================= -->
+        <section id="scene-3" class="scene">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-4xl w-full text-center">
+                <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-pink-200 mb-3 glow-title">
+                    Choose Your Penguin 🐧
+                </h2>
+                <p class="font-playfair italic text-gray-300 text-sm md:text-base mb-10">
+                    Pick a magical companion to escort you through the rest of your journey!
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    <!-- Penguin 1: Midnight -->
+                    <div onclick="selectPenguin('Midnight')" class="glass-card p-6 rounded-2xl cursor-pointer group hover:scale-105 border-pink-500/20 hover:border-pink-400">
+                        <div class="w-28 h-28 mx-auto mb-4 relative flex items-center justify-center">
+                            <svg class="w-full h-full drop-shadow-[0_0_15px_rgba(0,242,254,0.5)]" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="38" fill="#0c102b"/>
+                                <circle cx="50" cy="54" r="28" fill="#ffffff"/>
+                                <circle cx="40" cy="45" r="4" fill="#0c102b"/>
+                                <circle cx="60" cy="45" r="4" fill="#0c102b"/>
+                                <path d="M 45 52 Q 50 60 55 52 Z" fill="#ff9f43"/>
+                                <rect x="35" y="62" width="30" height="8" rx="4" fill="#00f2fe"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-cyan-300 mb-1">Midnight</h3>
+                        <p class="text-xs text-gray-400">Guardian of Starry Nights</p>
+                    </div>
+
+                    <!-- Penguin 2: Rose -->
+                    <div onclick="selectPenguin('Rose')" class="glass-card p-6 rounded-2xl cursor-pointer group hover:scale-105 border-pink-500/20 hover:border-pink-400">
+                        <div class="w-28 h-28 mx-auto mb-4 relative flex items-center justify-center">
+                            <svg class="w-full h-full drop-shadow-[0_0_15px_rgba(255,42,122,0.6)]" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="38" fill="#1f0c2b"/>
+                                <circle cx="50" cy="54" r="28" fill="#fff0f5"/>
+                                <circle cx="40" cy="45" r="4" fill="#1f0c2b"/>
+                                <circle cx="60" cy="45" r="4" fill="#1f0c2b"/>
+                                <path d="M 45 52 Q 50 60 55 52 Z" fill="#ff9f43"/>
+                                <!-- Bow -->
+                                <path d="M 36 28 Q 42 34 42 26 Q 42 18 36 24 Z" fill="#ff2a7a"/>
+                                <path d="M 48 28 Q 42 34 42 26 Q 42 18 48 24 Z" fill="#ff2a7a"/>
+                                <circle cx="42" cy="26" r="3" fill="#ffffff"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-pink-300 mb-1">Rose</h3>
+                        <p class="text-xs text-gray-400">Sweet & Loving Companion</p>
+                    </div>
+
+                    <!-- Penguin 3: Sunshine -->
+                    <div onclick="selectPenguin('Sunshine')" class="glass-card p-6 rounded-2xl cursor-pointer group hover:scale-105 border-pink-500/20 hover:border-pink-400">
+                        <div class="w-28 h-28 mx-auto mb-4 relative flex items-center justify-center">
+                            <svg class="w-full h-full drop-shadow-[0_0_15px_rgba(255,215,0,0.6)]" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="38" fill="#2b200c"/>
+                                <circle cx="50" cy="54" r="28" fill="#fffff0"/>
+                                <circle cx="40" cy="45" r="4" fill="#2b200c"/>
+                                <circle cx="60" cy="45" r="4" fill="#2b200c"/>
+                                <path d="M 45 52 Q 50 60 55 52 Z" fill="#ff9f43"/>
+                                <!-- Crown -->
+                                <path d="M 38 28 L 42 20 L 50 26 L 58 20 L 62 28 Z" fill="#ffd700"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-yellow-300 mb-1">Sunshine</h3>
+                        <p class="text-xs text-gray-400">Bringer of Pure Joy</p>
+                    </div>
+                </div>
+
+                <p id="penguinSelectionNotice" class="text-sm font-semibold text-pink-300 mb-6 h-6"></p>
+
+                <button id="penguinConfirmBtn" disabled onclick="nextScene(4)" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-semibold text-sm tracking-widest uppercase opacity-40 cursor-not-allowed transition-all">
+                    <span>Continue With Companion</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 4: BUTTERFLY GAME ================= -->
+        <section id="scene-4" class="scene">
+            <div class="glass-panel p-6 md:p-8 rounded-3xl max-w-2xl w-full text-center relative overflow-hidden">
+                <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-pink-200 mb-2 glow-title">
+                    Catch The Glowing Butterflies 🦋
+                </h2>
+                <p class="font-playfair text-xs md:text-sm text-gray-300 mb-4">
+                    Tap on 5 magical butterflies to gather their glowing light into the jar!
+                </p>
+
+                <div class="inline-block bg-black/40 border border-pink-500/30 px-6 py-2 rounded-full text-xs font-semibold text-pink-200 tracking-wider mb-6">
+                    Captured: <span id="butterflyCount" class="text-yellow-300 text-sm font-bold">0</span> / 5
+                </div>
+
+                <!-- Interactive Game Container -->
+                <div id="butterflyJarArea" class="relative w-full h-72 md:h-80 bg-black/30 rounded-2xl border border-pink-500/20 overflow-hidden flex items-center justify-center">
+                    <!-- Glass Jar Graphic -->
+                    <div id="glassJar" class="relative w-28 h-40 border-2 border-pink-300/40 rounded-b-3xl rounded-t-lg bg-white/5 backdrop-blur-md shadow-[0_0_30px_rgba(255,100,180,0.15)] flex flex-col items-center justify-center transition-all duration-700">
+                        <!-- Jar Lid -->
+                        <div class="absolute -top-3 w-32 h-4 bg-pink-400/40 border border-pink-200/50 rounded-full"></div>
+                        <!-- Inner Glow -->
+                        <div id="jarGlow" class="w-full h-full rounded-b-3xl bg-pink-500/0 transition-all duration-700 flex items-center justify-center text-4xl">
+                            ✨
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completion Box -->
+                <div id="butterflyCompleteBox" class="hidden absolute inset-0 bg-black/90 backdrop-blur-xl p-8 flex flex-col items-center justify-center text-center z-20">
+                    <div class="text-5xl mb-4 animate-bounce">🦋✨🌟</div>
+                    <h3 class="font-cinzel text-2xl md:text-3xl font-bold text-pink-300 mb-3 glow-title">
+                        All Butterflies Captured!
+                    </h3>
+                    <p class="font-playfair italic text-purple-200 text-sm md:text-base max-w-md mb-8">
+                        "The jar is now filled with magical light... ready to illuminate your personal love letter."
+                    </p>
+                    <button onclick="nextScene(5)" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-semibold text-sm tracking-widest uppercase">
+                        <span>Read Love Letter 💌</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 5: LOVE LETTER ================= -->
+        <section id="scene-5" class="scene">
+            <div class="glass-panel p-6 md:p-10 rounded-3xl max-w-2xl w-full relative overflow-hidden border-2 border-pink-500/30 max-h-[85vh] flex flex-col">
+                <div class="overflow-y-auto pr-2 space-y-4 font-playfair text-sm md:text-base text-pink-100 leading-relaxed" id="letterContainer">
+                    
+                    <p class="letter-line font-cinzel text-2xl md:text-3xl font-bold text-pink-300 text-center mb-6 glow-title">
+                        Happy Birthday, Aishwarya ❤️
+                    </p>
+
+                    <p class="letter-line text-pink-200 font-semibold italic text-base">
+                        Dear Aishwarya (mazi ekdum special person) ❤️
+                    </p>
+
+                    <p class="letter-line">
+                        First of all… <strong>Happy Birthday! 🎂❤️</strong>
+                    </p>
+
+                    <p class="letter-line">
+                        Aaj tuza special day aahe, and honestly, I wanted to make something different… something that would always remind you how special you are.
+                    </p>
+
+                    <p class="letter-line">
+                        Kadhi kadhi life madhe kahi lok achanak yetat, pan nighun jatana te fakta memories sodun jat nahit… te aaplya ayushacha ek beautiful part banun jatat.
+                    </p>
+
+                    <p class="letter-line text-yellow-200 font-semibold">
+                        Tu majhya life madhla tasach ek beautiful chapter ahes. ❤️
+                    </p>
+
+                    <p class="letter-line">
+                        Tujhyashi jhalelya pratyek conversation, pratyek call, pratyek hasan… saglach majhyasathi priceless aahe.
+                    </p>
+
+                    <p class="letter-line">
+                        Tujha smile… tula kadachit kadhi kalnar nahi, pan majhyasathi to divasatla saglyat sundar moment asto.
+                    </p>
+
+                    <p class="letter-line text-pink-300 font-semibold">
+                        Always keep smiling, because your smile deserves to stay forever. ❤️
+                    </p>
+
+                    <p class="letter-line">
+                        May God bless you with endless happiness, success, good health and every dream you've ever wished for.
+                    </p>
+
+                    <p class="letter-line text-yellow-300 font-bold text-lg">
+                        Happy Birthday My Kaju Katri! 🎂❤️
+                    </p>
+
+                    <p class="letter-line">
+                        Aani ho… ha chhota sa surprise fakt birthday sathi nahi.
+                    </p>
+
+                    <p class="letter-line">
+                        To ek reminder aahe ki tu majhyasathi khup, khup special ahes.
+                    </p>
+
+                    <div class="letter-line pt-6 text-right font-cinzel text-lg text-pink-300">
+                        — Made with lots of love,<br>
+                        <span class="font-bold text-xl text-yellow-200 glow-gold">Tujha ………… ❤️</span>
+                    </div>
+
+                </div>
+
+                <div class="mt-6 text-center pt-4 border-t border-pink-500/20">
+                    <button id="letterNextBtn" onclick="nextScene(6)" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-semibold text-sm tracking-widest uppercase opacity-0 pointer-events-none transition-all duration-700">
+                        <span>Our Memories Gallery</span>
+                        <i class="fa-solid fa-images ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 6: PHOTO MEMORIES GALLERY ================= -->
+        <section id="scene-6" class="scene">
+            <div class="glass-panel p-6 md:p-10 rounded-3xl max-w-5xl w-full text-center">
+                <h2 class="font-cinzel text-3xl md:text-4xl font-bold text-pink-200 mb-2 glow-title">
+                    Our Beautiful Memories ❤️
+                </h2>
+                <p class="font-playfair italic text-gray-300 text-sm mb-8">
+                    "Every frame captures a timeless moment of joy..."
+                </p>
+
+                <!-- Grid of 6 Polaroid Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                    <!-- Photo 1 -->
+                    <div onclick="openLightbox(0)" class="polaroid-card p-3 rounded-2xl cursor-pointer">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-purple-950/60 border border-white/10">
+                            <img src="photos/photo1.jpg" alt="Memory 1" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-playfair text-xs text-pink-200 truncate">Golden Sunsets ✨</p>
+                    </div>
+
+                    <!-- Photo 2 -->
+                    <div onclick="openLightbox(1)" class="polaroid-card p-3 rounded-2xl cursor-pointer">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-purple-950/60 border border-white/10">
+                            <img src="photos/photo2.jpg" alt="Memory 2" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-playfair text-xs text-pink-200 truncate">Precious Smile ❤️</p>
+                    </div>
+
+                    <!-- Photo 3 -->
+                    <div onclick="openLightbox(2)" class="polaroid-card p-3 rounded-2xl cursor-pointer">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-purple-950/60 border border-white/10">
+                            <img src="photos/photo3.jpg" alt="Memory 3" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-playfair text-xs text-pink-200 truncate">Hand In Hand 💕</p>
+                    </div>
+
+                    <!-- Photo 4 -->
+                    <div onclick="openLightbox(3)" class="polaroid-card p-3 rounded-2xl cursor-pointer">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-purple-950/60 border border-white/10">
+                            <img src="photos/photo4.jpg" alt="Memory 4" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-playfair text-xs text-pink-200 truncate">Endless Laughs 🎉</p>
+                    </div>
+
+                    <!-- Photo 5 -->
+                    <div onclick="openLightbox(4)" class="polaroid-card p-3 rounded-2xl cursor-pointer">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-purple-950/60 border border-white/10">
+                            <img src="photos/photo5.jpg" alt="Memory 5" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-playfair text-xs text-pink-200 truncate">Starry Dreams 🌙</p>
+                    </div>
+
+                    <!-- Photo 6 -->
+                    <div onclick="openLightbox(5)" class="polaroid-card p-3 rounded-2xl cursor-pointer">
+                        <div class="aspect-square rounded-xl overflow-hidden mb-3 bg-purple-950/60 border border-white/10">
+                            <img src="photos/photo6.jpg" alt="Memory 6" class="w-full h-full object-cover">
+                        </div>
+                        <p class="font-playfair text-xs text-pink-200 truncate">Always & Forever 💖</p>
+                    </div>
+                </div>
+
+                <button onclick="nextScene(7)" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-semibold text-sm tracking-widest uppercase">
+                    <span>Under The Moonlit Sky</span>
+                    <i class="fa-solid fa-moon ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- LIGHTBOX MODAL FOR MEMORIES -->
+        <div id="lightbox" class="fixed inset-0 bg-black/90 backdrop-blur-2xl z-50 hidden flex-col items-center justify-center p-4">
+            <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white text-3xl hover:text-pink-400">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="lightboxImg" src="" class="max-w-full max-h-[75vh] rounded-2xl border-2 border-pink-400/40 shadow-2xl mb-4">
+            <p id="lightboxCaption" class="font-playfair text-pink-200 text-lg italic"></p>
+        </div>
+
+        <!-- ================= SCENE 7 & 8: MOONLIT LAKE & QUESTION ================= -->
+        <section id="scene-7" class="scene">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-lg w-full text-center relative overflow-hidden border-2 border-pink-500/30">
+                
+                <!-- Glowing Moon graphic -->
+                <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-tr from-yellow-100 via-yellow-200 to-amber-300 shadow-[0_0_40px_rgba(255,230,150,0.8)] relative flex items-center justify-center">
+                    <div class="w-6 h-6 rounded-full bg-yellow-200/40 absolute top-4 left-5"></div>
+                </div>
+
+                <p class="font-playfair italic text-pink-200 text-lg md:text-xl mb-6">
+                    "Somewhere quiet,<br>just you, me & the stars." ✨
+                </p>
+
+                <div class="bg-black/40 p-6 rounded-2xl border border-pink-500/20 mb-6">
+                    <h3 class="font-cinzel text-2xl md:text-3xl font-bold text-pink-200 mb-2 glow-title">
+                        Can we go out tonight?
+                    </h3>
+                    <p class="font-sans text-xs text-purple-200/80 uppercase tracking-widest">
+                        Just you, me, and the stars… ✨
+                    </p>
+                </div>
+
+                <!-- Interactive Buttons -->
+                <div class="flex items-center justify-center gap-6 relative min-h-[60px]" id="dateChoiceContainer">
+                    <button onclick="acceptDate()" class="btn-cinematic px-8 py-3.5 rounded-full text-white font-bold text-sm tracking-wider uppercase shadow-lg shadow-pink-500/40">
+                        Yes ❤️
+                    </button>
+
+                    <button id="noBtn" onmouseover="evadeNoBtn()" onclick="evadeNoBtn()" class="px-8 py-3.5 rounded-full bg-gray-800/80 text-gray-300 font-semibold text-sm border border-gray-600 transition-all duration-200">
+                        No ✕
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SCENE 9: FINAL CELEBRATION ================= -->
+        <section id="scene-9" class="scene">
+            <div class="glass-panel p-8 md:p-12 rounded-3xl max-w-2xl w-full text-center relative overflow-hidden border-2 border-pink-500/40 shadow-2xl">
+                <div class="text-6xl mb-6 animate-bounce">🎆👑✨</div>
+
+                <h1 class="font-cinzel text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-200 to-yellow-200 mb-4 glow-title">
+                    Happy Birthday
+                </h1>
+
+                <h2 class="font-cinzel text-3xl md:text-5xl font-extrabold text-pink-300 mb-6 glow-title">
+                    Aishwarya ❤️
+                </h2>
+
+                <p class="font-playfair italic text-xl md:text-2xl text-yellow-200 mb-2 glow-gold">
+                    "You mean the world to me."
+                </p>
+
+                <p class="font-sans text-xs uppercase tracking-[0.3em] text-pink-300 mb-10">
+                    Always & Forever ❤️
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="triggerGrandFireworks()" class="btn-cinematic w-full sm:w-auto px-8 py-3.5 rounded-full text-white font-semibold text-xs tracking-widest uppercase flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-sparkles"></i>
+                        <span>More Fireworks</span>
+                    </button>
+
+                    <button onclick="restartSurprise()" class="glass-card w-full sm:w-auto px-8 py-3.5 rounded-full text-pink-200 hover:text-white font-semibold text-xs tracking-widest uppercase flex items-center justify-center gap-2 border border-pink-500/30">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Replay Surprise</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* ==========================================================================
+           PARTICLE CANVAS ENGINE (HERO EXPERIENCE: SCENE 1 & 2)
+           ========================================================================== */
+        const pCanvas = document.getElementById('particleCanvas');
+        const pCtx = pCanvas.getContext('2d');
+
+        let pWidth = pCanvas.width = window.innerWidth;
+        let pHeight = pCanvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            pWidth = pCanvas.width = window.innerWidth;
+            pHeight = pCanvas.height = window.innerHeight;
+            if (currentMode === 'HEART') generateHeartTargets();
+            if (currentMode === 'TREE') generateTreeTargets();
+        });
+
+        const PARTICLE_COUNT = 1200;
+        let particles = [];
+        let currentMode = 'SCATTERED'; // Modes: 'SCATTERED', 'HEART', 'DISSOLVE', 'TREE'
+
+        const PALETTE = [
+            '#ff2a7a', '#ff78b4', '#9d4edf', '#7b2cbf', 
+            '#00f2fe', '#4facfe', '#ffd700', '#ffffff'
+        ];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * pWidth;
+                this.y = Math.random() * pHeight;
+                this.targetX = this.x;
+                this.targetY = this.y;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.size = Math.random() * 2.5 + 1;
+                this.color = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+                this.alpha = Math.random() * 0.8 + 0.2;
+                this.ease = Math.random() * 0.03 + 0.015;
+            }
+
+            update() {
+                if (currentMode === 'SCATTERED') {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > pWidth) this.vx *= -1;
+                    if (this.y < 0 || this.y > pHeight) this.vy *= -1;
+                } else {
+                    // Smooth lerp to target coordinate
+                    this.x += (this.targetX - this.x) * this.ease;
+                    this.y += (this.targetY - this.y) * this.ease;
+                }
+            }
+
+            draw() {
+                pCtx.save();
+                pCtx.globalAlpha = this.alpha;
+                pCtx.fillStyle = this.color;
+                pCtx.shadowBlur = 10;
+                pCtx.shadowColor = this.color;
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fill();
+                pCtx.restore();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        /* --- PARAMETRIC HEART EQUATION TARGETS --- */
+        function generateHeartTargets() {
+            const scale = Math.min(pWidth, pHeight) / 45;
+            const centerX = pWidth / 2;
+            const centerY = pHeight / 2 - 20;
+
+            for (let i = 0; i < particles.length; i++) {
+                const t = (i / particles.length) * Math.PI * 2;
+                // Parametric Heart Formula
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+                // Add slight depth offset
+                const jitterX = (Math.random() - 0.5) * 15;
+                const jitterY = (Math.random() - 0.5) * 15;
+
+                particles[i].targetX = centerX + x * scale + jitterX;
+                particles[i].targetY = centerY + y * scale + jitterY;
+            }
+        }
+
+        /* --- FRACTAL FLOWER TREE TARGETS --- */
+        function generateTreeTargets() {
+            const centerX = pWidth / 2;
+            const startY = pHeight - 80;
+            const treePoints = [];
+
+            // Helper to branch tree recursively
+            function branch(x, y, length, angle, depth) {
+                if (depth === 0) return;
+                const endX = x + length * Math.cos(angle);
+                const endY = y + length * Math.sin(angle);
+
+                // Add points along branch
+                const steps = Math.floor(length / 4);
+                for (let s = 0; s < steps; s++) {
+                    const ratio = s / steps;
+                    treePoints.push({
+                        x: x + (endX - x) * ratio,
+                        y: y + (endY - y) * ratio,
+                        isFlower: depth <= 2
+                    });
+                }
+
+                branch(endX, endY, length * 0.75, angle - 0.45, depth - 1);
+                branch(endX, endY, length * 0.75, angle + 0.45, depth - 1);
+            }
+
+            branch(centerX, startY, Math.min(pHeight / 6, 120), -Math.PI / 2, 7);
+
+            for (let i = 0; i < particles.length; i++) {
+                const pt = treePoints[i % treePoints.length];
+                particles[i].targetX = pt.x + (Math.random() - 0.5) * (pt.isFlower ? 25 : 8);
+                particles[i].targetY = pt.y + (Math.random() - 0.5) * (pt.isFlower ? 25 : 8);
+                if (pt.isFlower) {
+                    particles[i].color = PALETTE[Math.floor(Math.random() * 4)]; // Pink/Purple flowers
+                } else {
+                    particles[i].color = '#ffd700'; // Golden trunk/branches
+                }
+            }
+        }
+
+        function renderParticleEngine() {
+            pCtx.clearRect(0, 0, pWidth, pHeight);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(renderParticleEngine);
+        }
+        renderParticleEngine();
+
+
+        /* ==========================================================================
+           BUTTERFLY GAME LOGIC (SCENE 4)
+           ========================================================================== */
+        let caughtButterflies = 0;
+        const totalButterflies = 5;
+
+        function initButterflyGame() {
+            const container = document.getElementById('butterflyJarArea');
+            container.querySelectorAll('.game-butterfly').forEach(b => b.remove());
+            caughtButterflies = 0;
+            document.getElementById('butterflyCount').innerText = caughtButterflies;
+            document.getElementById('butterflyCompleteBox').classList.add('hidden');
+
+            const colors = ['#ff2a7a', '#00f2fe', '#ffd700', '#9d4edf', '#ff78b4'];
+
+            for (let i = 0; i < totalButterflies; i++) {
+                const b = document.createElement('div');
+                b.className = 'game-butterfly absolute text-2xl cursor-pointer select-none transition-transform duration-300 hover:scale-125';
+                b.style.color = colors[i];
+                b.style.textShadow = `0 0 12px ${colors[i]}`;
+                b.innerHTML = '🦋';
+                b.style.left = `${Math.random() * 75 + 10}%`;
+                b.style.top = `${Math.random() * 65 + 10}%`;
+
+                // Organic floating
+                let angle = Math.random() * Math.PI * 2;
+                setInterval(() => {
+                    angle += 0.05;
+                    b.style.transform = `translate(${Math.cos(angle) * 15}px, ${Math.sin(angle) * 15}px)`;
+                }, 50);
+
+                b.onclick = function() {
+                    catchButterfly(this);
+                };
+                container.appendChild(b);
+            }
+        }
+
+        function catchButterfly(element) {
+            const jar = document.getElementById('glassJar');
+            const jarRect = jar.getBoundingClientRect();
+            const elRect = element.getBoundingClientRect();
+
+            // Animate butterfly into jar
+            element.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            element.style.left = `${jar.offsetLeft + 30}px`;
+            element.style.top = `${jar.offsetTop + 40}px`;
+            element.style.opacity = '0';
+            element.style.transform = 'scale(0.2)';
+
+            setTimeout(() => {
+                element.remove();
+                caughtButterflies++;
+                document.getElementById('butterflyCount').innerText = caughtButterflies;
+
+                // Jar Glow Flash
+                const jarGlow = document.getElementById('jarGlow');
+                jarGlow.style.backgroundColor = `rgba(255, 42, 122, ${caughtButterflies * 0.18})`;
+
+                if (caughtButterflies >= totalButterflies) {
+                    setTimeout(() => {
+                        document.getElementById('butterflyCompleteBox').classList.remove('hidden');
+                        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+                    }, 500);
+                }
+            }, 800);
+        }
+
+        /* ==========================================================================
+           SCENE NAVIGATION & TRANSITIONS
+           ========================================================================== */
+        let currentScene = 0;
+
+        function nextScene(sceneNum) {
+            document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+            currentScene = sceneNum;
+            const target = document.getElementById(`scene-${sceneNum}`);
+            if (target) target.classList.add('active');
+
+            if (sceneNum === 4) {
+                initButterflyGame();
+            } else if (sceneNum === 5) {
+                revealLetterLineByLine();
+            } else if (sceneNum === 9) {
+                triggerGrandFireworks();
+            }
+        }
+
+        function checkPassword(e) {
+            e.preventDefault();
+            const val = document.getElementById('passInput').value;
+            const err = document.getElementById('passError');
+
+            if (val === '0810') {
+                err.classList.add('hidden');
+                // Start Hero Particle Heart Animation
+                currentMode = 'HEART';
+                generateHeartTargets();
+                nextScene(1);
+
+                setTimeout(() => {
+                    document.getElementById('scene1Text1').classList.remove('opacity-0');
+                }, 1000);
+                setTimeout(() => {
+                    document.getElementById('scene1Text2').classList.remove('opacity-0');
+                }, 2200);
+                setTimeout(() => {
+                    const btn = document.getElementById('scene1Btn');
+                    btn.classList.remove('opacity-0', 'pointer-events-none');
+                }, 3400);
+
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+
+        function transitionToTree() {
+            currentMode = 'TREE';
+            generateTreeTargets();
+            nextScene(2);
+
+            setTimeout(() => {
+                document.getElementById('scene2Text1').classList.remove('opacity-0');
+            }, 800);
+            setTimeout(() => {
+                document.getElementById('scene2Text2').classList.remove('opacity-0');
+            }, 1800);
+            setTimeout(() => {
+                document.getElementById('scene2Sub').classList.remove('opacity-0');
+            }, 2800);
+            setTimeout(() => {
+                const btn = document.getElementById('scene2Btn');
+                btn.classList.remove('opacity-0', 'pointer-events-none');
+            }, 3800);
+        }
+
+        /* PENGUIN SELECTION */
+        let selectedPenguinName = '';
+        function selectPenguin(name) {
+            selectedPenguinName = name;
+            document.getElementById('penguinSelectionNotice').innerText = `You chose ${name}! ❤️`;
+            const btn = document.getElementById('penguinConfirmBtn');
+            btn.disabled = false;
+            btn.classList.remove('opacity-40', 'cursor-not-allowed');
+        }
+
+        /* LINE BY LINE LETTER REVEAL */
+        function revealLetterLineByLine() {
+            const lines = document.querySelectorAll('.letter-line');
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.add('revealed');
+                    if (index === lines.length - 1) {
+                        const btn = document.getElementById('letterNextBtn');
+                        btn.classList.remove('opacity-0', 'pointer-events-none');
+                    }
+                }, index * 800);
+            });
+        }
+
+        /* LIGHTBOX GALLERY */
+        const photos = [
+            { url: 'photos/photo1.jpg', cap: 'Golden Sunsets spent together ✨' },
+            { url: 'photos/photo2.jpg', cap: 'Your smile is my favorite view ❤️' },
+            { url: 'photos/photo3.jpg', cap: 'Walking hand in hand into forever 💕' },
+            { url: 'photos/photo4.jpg', cap: 'Endless laughter & sweet memories 🎉' },
+            { url: 'photos/photo5.jpg', cap: 'Underneath a sky full of stars 🌙' },
+            { url: 'photos/photo6.jpg', cap: 'Always & Forever by your side 💖' }
+        ];
+
+        function openLightbox(index) {
+            document.getElementById('lightboxImg').src = photos[index].url;
+            document.getElementById('lightboxCaption').innerText = photos[index].cap;
+            document.getElementById('lightbox').classList.remove('hidden');
+            document.getElementById('lightbox').classList.add('flex');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.getElementById('lightbox').classList.remove('flex');
+        }
+
+        /* EVADING NO BUTTON */
+        function evadeNoBtn() {
+            const btn = document.getElementById('noBtn');
+            const randomX = (Math.random() - 0.5) * 200;
+            const randomY = (Math.random() - 0.5) * 140;
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        function acceptDate() {
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            nextScene(9);
+        }
+
+        /* GRAND FIREWORKS FINAL CELEBRATION */
+        function triggerGrandFireworks() {
+            let count = 0;
+            const interval = setInterval(() => {
+                confetti({
+                    particleCount: 80,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 80,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+                count++;
+                if (count > 8) clearInterval(interval);
+            }, 450);
+        }
+
+        function restartSurprise() {
+            currentMode = 'SCATTERED';
+            document.getElementById('passInput').value = '';
+            nextScene(0);
+        }
+
+        /* MOCK AUDIO PLAYER */
+        let isAudioOn = true;
+        function toggleAudio() {
+            isAudioOn = !isAudioOn;
+            document.getElementById('musicLabel').innerText = isAudioOn ? 'Music On' : 'Music Off';
+            document.getElementById('musicIcon').className = isAudioOn ? 'fa-solid fa-music text-pink-400' : 'fa-solid fa-volume-xmark text-gray-400';
+        }
+    </script>
+</body>
+</html>
